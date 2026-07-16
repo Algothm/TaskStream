@@ -1,0 +1,57 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-01-06 17:25:30.202012",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "collection_name",
+  "description",
+  "work_items"
+ ],
+ "fields": [
+  {
+   "fieldname": "collection_name",
+   "fieldtype": "Data",
+   "label": "Collection Name"
+  },
+  {
+   "fieldname": "work_items",
+   "fieldtype": "Table",
+   "label": "Work Items",
+   "options": "Collection Item"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-02-27 18:26:58.549703",
+ "modified_by": "Administrator",
+ "module": "Taskstream",
+ "name": "Collection",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

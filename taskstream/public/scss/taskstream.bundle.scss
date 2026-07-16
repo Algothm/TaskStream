@@ -1,0 +1,124 @@
+/* ── Sidebar sections: full-width controls ────────────────────────────────────
+   Frappe's defaults cap max-widths. We ensure every sidebar section fills
+   perfectly, so adding a new sidebar section only needs a JS list update.
+   ─────────────────────────────────────────────────────────────────────────── */
+.wi-side-bar .form-section {
+	.row,
+	.form-layout-flex {
+		display: block !important;
+	}
+
+	.frappe-control,
+	.input-max-width,
+	.awesomplete,
+	.control-input-wrapper,
+	.control-input,
+	.link-field {
+		max-width: 100% !important;
+		width: 100% !important;
+	}
+
+	input.form-control,
+	input[type="text"],
+	select.form-control,
+	textarea.form-control {
+		max-width: 100% !important;
+		width: 100% !important;
+	}
+
+	.form-column,
+	[class*="col-"] {
+		max-width: 100% !important;
+		width: 100% !important;
+		flex: 0 0 100% !important;
+		float: none !important;
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+	}
+}
+
+/* ── Two-column global layout ── */
+.wi-global-wrap {
+	display: flex;
+	gap: 20px;
+	align-items: start;
+	flex-wrap: nowrap;
+}
+
+.wi-main-content {
+	flex: 1 1 0;
+	min-width: 0;
+}
+
+.wi-side-bar {
+	flex: 0 0 320px;
+	max-width: 320px;
+	position: sticky;
+	top: 80px;
+	z-index: 1;
+
+	border: 1px solid #e2e6ea;
+	border-radius: 8px;
+	padding: 16px;
+
+	.form-section {
+		padding: 0 !important;
+		margin-bottom: 20px !important;
+		background: transparent !important;
+		border: none !important;
+		box-shadow: none !important;
+	}
+
+	.form-section:last-child {
+		margin-bottom: 0 !important;
+	}
+
+	.section-head {
+		padding: 0 0 2px;
+		margin: 0 0 12px;
+		border-bottom: 1px solid #232323;
+	}
+}
+
+@media (max-width: 991px) {
+	.wi-global-wrap {
+		flex-wrap: wrap;
+	}
+	.wi-side-bar {
+		flex: 1 1 100%;
+		max-width: 100%;
+		position: static;
+	}
+}
+
+/* ── Recurrence description — styled card ── */
+[data-fieldname="recurrence_description"] .like-disabled-input,
+[data-fieldname="recurrence_description"] .control-value {
+	background: var(--control-bg, #fff);
+	border: 1.5px solid var(--border-color, #d0e4f7);
+	border-radius: 10px;
+	padding: 10px 14px;
+	color: var(--text-color);
+	font-size: var(--text-sm);
+	line-height: 1.6;
+	min-height: unset;
+	height: auto;
+	box-shadow: 0 1px 4px rgba(36, 144, 239, 0.07);
+}
+
+/* ── Recurrence tab right column — 10px breathing room on each side ── */
+.form-column[data-fieldname="column_break_iejr"] {
+	padding-left: 50px;
+	padding-right: 50px;
+}
+
+/* ── Recurrence Date table — left-align header, input, and static value ── */
+[data-fieldname="recurrence_date"] .grid-heading-row .col,
+[data-fieldname="recurrence_date"] .grid-row .col,
+[data-fieldname="recurrence_date"] .grid-row .col *,
+[data-fieldname="recurrence_date"] .grid-row .static-area,
+[data-fieldname="recurrence_date"] .grid-row .grid-static-col,
+[data-fieldname="recurrence_date"] .grid-row input {
+	text-align: left !important;
+	justify-content: flex-start !important;
+}

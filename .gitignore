@@ -1,0 +1,12 @@
+.DS_Store
+*.pyc
+*.egg-info
+*.swp
+tags
+node_modules
+__pycache__
+typos.toml
+taskstream/public/dist/
+.codex
+TODO.txt
+CLAUDE.md

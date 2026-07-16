@@ -1,0 +1,618 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Work Item Dashboard — Custom HTML Block  (Frappe Workspace)
+   Uses Frappe CSS variables for automatic light/dark theme support.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+/* ── Design tokens (scoped to dashboard) ── */
+.wi-dashboard {
+  --surface: var(--card-bg, #fff);
+  --surface-hover: #f7f7fb;
+  --surface-active: #efeff5;
+  --text-1: var(--heading-color, var(--text-color, #151528));
+  --text-2: var(--text-color, #555570);
+  --text-3: var(--text-muted, #8c8ca5);
+  --border: var(--border-color, #dcdce8);
+  --border-light: var(--border-color, #e8e8f0);
+  --shadow-card: 0 1px 2px rgba(20,20,50,0.05), 0 3px 10px rgba(20,20,50,0.06), 0 0 0 1px rgba(20,20,50,0.04);
+  --shadow-card-hover: 0 4px 8px rgba(20,20,50,0.08), 0 8px 24px rgba(20,20,50,0.08), 0 0 0 1px rgba(20,20,50,0.05);
+  --accent: #5b52e0;
+  --accent-hover: #4840c8;
+  --accent-bg: #eef0ff;
+  --accent-text: #3b35a0;
+  --accent-border: #c7c4f7;
+  --c-open: #3b82f6;
+  --c-open-bg: #eff6ff;
+  --c-review: #eab308;
+  --c-review-bg: #fefce8;
+  --c-onhold: #dc2626;
+  --c-onhold-bg: #fef2f2;
+  --c-done: #16a34a;
+  --c-done-bg: #f0fdf4;
+  --c-cancelled: #dc2626;
+  --c-cancelled-bg: #fef2f2;
+  --p-high: #ef4444;
+  --p-medium: #f59e0b;
+  --p-low: #6b88a8;
+  --gap-green: #16a34a;
+  --gap-amber: #d97706;
+  --gap-red: #dc2626;
+  --overdue-bg: #fef8f8;
+  --expanded-bg: #f9f9fc;
+  --row-py: 11px;
+  --row-gap: 14px;
+  --section-gap: 20px;
+  --font-row: 13.5px;
+}
+
+/* ── Reset / Root ── */
+.wi-dashboard {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  color: var(--text-1);
+  -webkit-font-smoothing: antialiased;
+  max-width: 1100px;
+  margin: 0 auto;
+  background: var(--surface);
+  padding: 24px 28px 0;
+  /* Make the entire dashboard scrollable so content flows naturally */
+  display: block;
+  max-height: 85vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.wi-dashboard::-webkit-scrollbar { width: 5px; }
+.wi-dashboard::-webkit-scrollbar-track { background: transparent; }
+.wi-dashboard::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.wi-dashboard::-webkit-scrollbar-thumb:hover { background: var(--text-3); }
+
+/* ─────────────────────────── Loading skeleton ─────────────────────────── */
+.wi-loading {
+  padding: 28px 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.wi-skeleton-bar,
+.wi-skeleton-row {
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--control-bg, #f0f1f3) 25%, var(--border-color, #e4e7eb) 50%, var(--control-bg, #f0f1f3) 75%);
+  background-size: 200% 100%;
+  animation: wi-shimmer 1.4s ease-in-out infinite;
+}
+.wi-skeleton-bar { height: 52px; width: 100%; }
+.wi-skeleton-row { height: 62px; width: 100%; }
+.wi-skeleton-row.short { width: 75%; }
+@keyframes wi-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─────────────────────────── Content wrapper ─────────────────────────── */
+.wi-content {
+  /* Let content flow naturally */
+  display: block;
+}
+
+.wi-mobile-modal-backdrop {
+  display: none; position: fixed; inset: 0; background: rgba(15,15,30,0.45);
+  z-index: 1000; align-items: flex-end; justify-content: center;
+}
+.wi-mobile-modal-backdrop.open { display: flex; }
+.wi-mobile-modal {
+  width: 100%; max-width: 560px; max-height: 82vh; overflow-y: auto;
+  background: var(--surface, #fff); border-radius: 18px 18px 0 0;
+  padding: 10px 18px 24px; position: relative;
+  box-shadow: 0 -8px 30px rgba(0,0,0,0.2);
+  animation: wi-sheet-up 0.22s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes wi-sheet-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.wi-mobile-modal-handle {
+  width: 36px; height: 4px; border-radius: 2px; background: var(--border);
+  margin: 4px auto 12px;
+}
+.wi-mobile-modal-close {
+  position: absolute; top: 10px; right: 14px; width: 28px; height: 28px;
+  border: none; background: var(--surface-hover); border-radius: 50%;
+  font-size: 18px; line-height: 1; color: var(--text-2); cursor: pointer;
+}
+
+/* ─────────────────────────── Dashboard Header ─────────────────────────── */
+.wi-header { margin-bottom: 18px; flex-shrink: 0; }
+.wi-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.wi-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-1);
+  margin: 0 0 2px;
+  letter-spacing: -0.5px;
+  line-height: 1.3;
+}
+.wi-subtitle {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-3);
+  margin: 0;
+}
+
+.wi-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ─────────────────────────── Tab Toggle ─────────────────────────── */
+.wi-tabs {
+  display: flex;
+  gap: 0;
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 3px;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  border: 1px solid var(--border-light);
+  flex-shrink: 0;
+}
+.wi-tab {
+  display: flex;
+  align-items: center;
+  padding: 8px 18px;
+  border: none;
+  background: transparent;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-3);
+  cursor: pointer;
+  transition: color 0.25s ease;
+  white-space: nowrap;
+  font-family: inherit;
+  position: relative;
+  z-index: 1;
+}
+.wi-tab:hover { color: var(--text-1); }
+.wi-tab.active { color: var(--accent); font-weight: 700; }
+.wi-tab-indicator {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  height: calc(100% - 6px);
+  border-radius: 10px;
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ─────────────────────────── Summary Cards ─────────────────────────── */
+.wi-summary-cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-shrink: 0; /* stays visible while list scrolls */
+  padding: 3px;
+}
+.wi-summary-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 16px 14px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-family: inherit;
+  box-shadow: var(--shadow-card);
+}
+.wi-summary-card:hover {
+  border-color: var(--border);
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
+}
+.wi-summary-card.active {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+  box-shadow: 0 0 0 1px var(--accent), 0 4px 14px rgba(91,82,224,0.15);
+  transform: translateY(-1px);
+}
+.wi-summary-card.active .wi-summary-card-value {
+  color: var(--accent);
+}
+.wi-summary-card.active .wi-summary-card-label {
+  color: var(--accent);
+  opacity: 0.75;
+}
+.wi-summary-card-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-1);
+  letter-spacing: -0.8px;
+  font-variant-numeric: tabular-nums;
+}
+.wi-summary-card-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.wi-card-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+/* ─── All card with pie chart ─── */
+.wi-summary-card-all { justify-content: center; }
+.wi-all-card-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.wi-all-pie { flex-shrink: 0; }
+.wi-all-card-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* ─────────────────────────── Task List ─────────────────────────── */
+/* List flows at its natural height; dashboard handles scrolling */
+.wi-task-list { display: block; }
+.wi-task-list::-webkit-scrollbar { width: 5px; }
+.wi-task-list::-webkit-scrollbar-track { background: transparent; }
+.wi-task-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* ─────────────────────────── List card wrapper ─────────────────────────── */
+.wi-list {
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+/* ─────────────────────────── Section ─────────────────────────── */
+.wi-section { border-bottom: 1px solid var(--border-light); }
+.wi-section:last-child { border-bottom: none; }
+
+.wi-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 14px 10px 16px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  position: relative;
+  transition: background 0.2s ease;
+  background: var(--bg-light-gray, #f5f6f7);
+}
+.wi-section-header::before {
+  content: '';
+  position: absolute;
+  left: -1px; top: 15%; bottom: 15%;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--section-accent, var(--text-3));
+}
+.wi-section-header:hover { background: #eeeff1; }
+.wi-section-overdue { background: #fef8f8; }
+.wi-section-overdue:hover { background: #fdf0f0; }
+.wi-section-review  { background: #fffbeb; }
+.wi-section-review:hover  { background: #fef6db; }
+
+.wi-section-left { display: flex; align-items: center; gap: 10px; }
+.wi-section-title { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; }
+.wi-section-sub   { font-size: 12px; color: var(--text-3); }
+.wi-section-count {
+  font-size: 11px; font-weight: 600; color: var(--text-3);
+  background: var(--surface-active); padding: 1px 7px; border-radius: 10px;
+}
+.wi-section-body { }
+.wi-section-body.collapsed { display: none; }
+
+/* ─────────────────────────── Chevron ─────────────────────────── */
+.wi-chevron { transition: transform 0.2s ease; color: var(--text-3); flex-shrink: 0; }
+.wi-chevron-open { transform: rotate(90deg); }
+
+/* ─────────────────────────── Work Item Row ─────────────────────────── */
+.wi-row { border-top: 1px solid var(--border-light); position: relative; }
+.wi-row::before {
+  content: ''; position: absolute; left: -1px; top: 0; bottom: 0;
+  width: 3px; border-radius: 0 3px 3px 0; background: var(--accent);
+  transform: scaleY(0); transition: transform 0.25s cubic-bezier(0.4,0,0.2,1); z-index: 1;
+}
+.wi-row:hover::before, .wi-row-expanded::before { transform: scaleY(1); }
+
+.wi-row-main {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; padding: var(--row-py) 14px; border: none; background: transparent;
+  cursor: pointer; transition: background 0.2s ease, padding-left 0.2s ease;
+  font-family: inherit; gap: 8px;
+}
+.wi-row-main:hover, .wi-row-expanded .wi-row-main { background: var(--surface-hover); padding-left: 18px; }
+
+.wi-row-left {
+  display: flex; align-items: center; gap: 10px;
+  min-width: 0; flex: 1; overflow: hidden;
+}
+.wi-row-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+.wi-row-chevron { flex-shrink: 0; color: var(--text-3); transition: transform 0.2s ease; }
+.wi-row-expanded .wi-row-chevron { transform: rotate(90deg); }
+
+.wi-row-id {
+  font-size: 11.5px; font-weight: 500; color: var(--text-3);
+  white-space: nowrap; font-family: 'SF Mono','Cascadia Code','Consolas',monospace;
+  opacity: 0.7; flex-shrink: 0;
+}
+.wi-row-title {
+  font-size: var(--font-row); font-weight: 500; color: var(--text-1);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  text-align: left; min-width: 0;
+}
+.wi-row-time-tag {
+  font-size: 11.5px; font-weight: 500; color: var(--text-3);
+  white-space: nowrap; flex-shrink: 0; font-variant-numeric: tabular-nums;
+}
+.wi-row-assignee-inline {
+  font-size: 11.5px; font-weight: 600; color: var(--accent);
+  white-space: nowrap; flex-shrink: 0;
+  padding: 1px 8px; background: var(--accent-bg); border-radius: 4px;
+}
+.wi-row-assignee { font-size: 12px; color: var(--text-3); white-space: nowrap; flex-shrink: 0; }
+
+/* ─── Priority signal bars ─── */
+.wi-priority-bars {
+  display: inline-flex; align-items: flex-end; gap: 2px;
+  height: 14px; flex-shrink: 0;
+}
+.wi-priority-bars span {
+  display: block; width: 3px; border-radius: 1.5px;
+}
+.wi-priority-bars span:nth-child(1) { height: 5px; }
+.wi-priority-bars span:nth-child(2) { height: 9px; }
+.wi-priority-bars span:nth-child(3) { height: 13px; }
+
+/* ─── Inline icon tags (attach, review, flow) ─── */
+.wi-row-icon-tag {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px; border-radius: 5px;
+  color: var(--text-3); flex-shrink: 0; cursor: default;
+}
+.wi-row-icon-review { color: var(--c-review); }
+
+/* ─── Status Badge (right side, All view only) ─── */
+.wi-status-badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 5px; white-space: nowrap; }
+.wi-badge-open         { color: var(--c-open);      background: var(--c-open-bg); }
+.wi-badge-under-review { color: var(--c-review);    background: var(--c-review-bg); }
+.wi-badge-on-hold      { color: var(--c-onhold);    background: var(--c-onhold-bg); }
+.wi-badge-rework       { color: var(--c-cancelled); background: var(--c-cancelled-bg); }
+.wi-badge-done         { color: var(--c-done);      background: var(--c-done-bg); }
+.wi-badge-in-progress  { color: var(--accent);      background: var(--accent-bg); }
+.wi-badge-to-do        { color: var(--text-2);      background: var(--surface-active); }
+
+/* ─── Gap value ─── */
+.wi-gap-value { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; min-width: 36px; text-align: right; flex-shrink: 0; }
+.wi-gap-value-lg { font-size: 16px; }
+
+/* ─────────────────────────── Expanded Panel ─────────────────────────── */
+.wi-expanded {
+  padding: 16px 18px 18px;
+  background: var(--expanded-bg);
+  border-top: 1px solid var(--border-light);
+  animation: wi-slideDown 0.25s cubic-bezier(0.16,1,0.3,1) both;
+}
+.wi-expanded-inner {
+  background: var(--surface); border: 1px solid var(--border-light);
+  border-radius: 10px; padding: 16px 20px;
+  box-shadow: inset 0 1px 3px rgba(20,20,50,0.04);
+}
+.wi-expanded-desc { font-size: 13px; color: var(--text-2); margin-bottom: 14px; line-height: 1.6; max-width: 680px; }
+.wi-expanded-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 16px; }
+.wi-expanded-heading { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-3); margin-bottom: 8px; }
+.wi-expanded-row { display: flex; align-items: center; justify-content: space-between; padding: 3px 0; gap: 12px; }
+.wi-expanded-label { font-size: 12px; color: var(--text-3); flex-shrink: 0; }
+.wi-expanded-value { font-size: 12px; font-weight: 500; color: var(--text-1); text-align: right; display: flex; align-items: center; gap: 8px; }
+
+/* Progress bar */
+.wi-progress-bar { width: 60px; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.wi-progress-fill { height: 100%; background: var(--accent); border-radius: 3px; }
+.wi-progress-text { font-size: 11px; color: var(--text-2); font-variant-numeric: tabular-nums; }
+
+/* ─────────────────────────── Action Buttons ─────────────────────────── */
+.wi-expanded-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.wi-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: 8px; font-size: 12.5px; font-weight: 600;
+  border: none; cursor: pointer; transition: all 0.2s ease; font-family: inherit;
+}
+.wi-btn:active { transform: scale(0.97); }
+.wi-btn-success { background: var(--c-done); color: #fff; }
+.wi-btn-success:hover { filter: brightness(0.9); }
+.wi-btn-warning { background: var(--c-review); color: #fff; }
+.wi-btn-warning:hover { filter: brightness(0.9); }
+.wi-btn-ghost { background: transparent; color: var(--text-2); border: 1px solid var(--border); }
+.wi-btn-ghost:hover { background: var(--surface-hover); color: var(--text-1); }
+
+/* ─────────────────────────── Empty State ─────────────────────────── */
+.wi-empty { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 48px 20px; }
+.wi-empty-title { font-size: 14px; font-weight: 600; color: var(--text-2); }
+.wi-empty-sub { font-size: 12.5px; color: var(--text-3); }
+
+/* ─────────────────────────── Animations ─────────────────────────── */
+.wi-section-body .wi-row { animation: wi-rowIn 0.28s cubic-bezier(0.16,1,0.3,1) both; }
+.wi-section-body .wi-row:nth-child(1) { animation-delay: 0ms; }
+.wi-section-body .wi-row:nth-child(2) { animation-delay: 25ms; }
+.wi-section-body .wi-row:nth-child(3) { animation-delay: 50ms; }
+.wi-section-body .wi-row:nth-child(4) { animation-delay: 75ms; }
+.wi-section-body .wi-row:nth-child(n+5) { animation-delay: 100ms; }
+
+@keyframes wi-rowIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes wi-slideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─────────────────────────── Dark Mode Overrides ─────────────────────────── */
+/*
+ * The widget renders inside a Shadow DOM (frappe.create_shadow_element), so
+ * [data-theme="dark"] on <html> is invisible to styles inside the shadow root.
+ * :host-context() pierces the boundary and checks an ancestor's attribute.
+ * Both selectors are kept for any non-shadow fallback rendering.
+ */
+:host-context([data-theme="dark"]) .wi-dashboard,
+[data-theme="dark"] .wi-dashboard {
+  --surface:        var(--card-bg, #1c1c1c);
+  --surface-hover:  rgba(255,255,255,0.05);
+  --surface-active: rgba(255,255,255,0.08);
+  --expanded-bg:    rgba(255,255,255,0.03);
+  --accent-bg:      rgba(91,82,224,0.18);
+  --accent-border:  rgba(91,82,224,0.35);
+  --accent-text:    #a89ff5;
+  --c-open-bg:      rgba(59,130,246,0.15);
+  --c-review-bg:    rgba(234,179,8,0.15);
+  --c-onhold-bg:    rgba(220,38,38,0.15);
+  --c-done-bg:      rgba(22,163,74,0.15);
+  --c-cancelled-bg: rgba(220,38,38,0.15);
+  --overdue-bg:     rgba(220,38,38,0.05);
+  --shadow-card:        0 1px 2px rgba(0,0,0,0.3), 0 3px 10px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.06);
+  --shadow-card-hover:  0 4px 8px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.08);
+  --border:       rgba(255,255,255,0.14);
+  --border-light: rgba(255,255,255,0.09);
+}
+
+/* Tab toggle (Assigned to Me / Assigned by Me) */
+:host-context([data-theme="dark"]) .wi-tabs,
+[data-theme="dark"] .wi-tabs { background: var(--card-bg, #1c1c1c); }
+
+/* Active summary card */
+:host-context([data-theme="dark"]) .wi-summary-card.active,
+[data-theme="dark"] .wi-summary-card.active { background: var(--accent-bg); }
+
+/* List row hover */
+:host-context([data-theme="dark"]) .wi-row-main:hover,
+:host-context([data-theme="dark"]) .wi-row-expanded .wi-row-main,
+[data-theme="dark"] .wi-row-main:hover,
+[data-theme="dark"] .wi-row-expanded .wi-row-main { background: var(--surface-hover); }
+
+/* Expanded panel outer */
+:host-context([data-theme="dark"]) .wi-expanded,
+[data-theme="dark"] .wi-expanded { background: var(--expanded-bg); }
+
+/* Section headers */
+:host-context([data-theme="dark"]) .wi-section-header,
+[data-theme="dark"] .wi-section-header { background: rgba(255,255,255,0.04); }
+:host-context([data-theme="dark"]) .wi-section-header:hover,
+[data-theme="dark"] .wi-section-header:hover { background: rgba(255,255,255,0.07); }
+:host-context([data-theme="dark"]) .wi-section-overdue,
+[data-theme="dark"] .wi-section-overdue { background: rgba(220,38,38,0.08); }
+:host-context([data-theme="dark"]) .wi-section-overdue:hover,
+[data-theme="dark"] .wi-section-overdue:hover { background: rgba(220,38,38,0.12); }
+:host-context([data-theme="dark"]) .wi-section-review,
+[data-theme="dark"] .wi-section-review  { background: rgba(234,179,8,0.08); }
+:host-context([data-theme="dark"]) .wi-section-review:hover,
+[data-theme="dark"] .wi-section-review:hover  { background: rgba(234,179,8,0.12); }
+
+/* ─────────────────────────── Responsive ─────────────────────────── */
+
+/* ── Tablet (≤ 800px): basic compression ── */
+@media (max-width: 800px) {
+  .wi-dashboard { padding: 12px 12px 16px; }
+
+  .wi-header { margin-bottom: 12px; }
+  .wi-header-top { flex-wrap: wrap; gap: 8px; }
+
+  /* Summary cards: 3 columns */
+  .wi-summary-cards { grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+
+  /* Expanded panel: single column */
+  .wi-expanded-grid { grid-template-columns: 1fr; }
+
+  /* Tabs: hide icon, tighten */
+  .wi-tabs .wi-tab { padding: 7px 12px; font-size: 12px; }
+  .wi-tabs .wi-tab svg { display: none; }
+
+  /* Row IDs hidden */
+  .wi-row-id { display: none; }
+}
+
+}
+
+/* ─── Phone-specific: the 800px pass above still crams a full-info row
+   and a 5-into-3 card grid into a ~360-400px screen. This pass actually
+   restructures both instead of just shrinking fonts. ─── */
+@media (max-width: 560px) {
+  .wi-dashboard { padding: 12px 10px 16px; }
+
+  .wi-header-top { position: relative; row-gap: 8px; }
+  .wi-title { margin-bottom: 0; }
+  .wi-header-actions { width: 100%; }
+  .wi-tabs { width: 100%; }
+  .wi-tabs .wi-tab { flex: 1; justify-content: center; padding: 8px 6px; }
+
+  /* Summary cards: 5 cards forced into 3 columns left an orphaned
+     2-card row. A horizontal scroll strip reads cleaner on a phone than
+     an uneven grid, and every card stays a consistent readable size. */
+  .wi-summary-cards {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    gap: 8px;
+    padding: 3px 2px 8px;
+    margin-bottom: 10px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .wi-summary-card {
+    flex: 0 0 92px;
+    scroll-snap-align: start;
+    padding: 12px 10px 10px;
+  }
+  .wi-summary-card-all { flex-basis: 108px; }
+
+  /* Section headers: tighten so the label/count/chevron don't crowd. */
+  .wi-section-header { padding: 10px 12px; }
+  .wi-section-sub { display: none; } /* redundant with the date already in the label on phones */
+
+  /* Row: this is the actual clutter fix. Chevron+priority+title+tags on
+     one line and assignee+status+gap on another line, each full-width,
+     instead of every element on the row fighting the title for space. */
+  .wi-row-main {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    padding: 10px 12px;
+  }
+  .wi-row-main:hover, .wi-row-expanded .wi-row-main { padding-left: 12px; } /* no left-shift on tap targets this narrow */
+  .wi-row-left { width: 100%; }
+  .wi-row-right {
+    width: 100%;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+}

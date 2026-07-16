@@ -1,0 +1,204 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-01-06 17:57:25.419744",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "sent_reminder_before",
+  "max_file_attachment_size",
+  "column_break_vuwy",
+  "max_delay_penalty",
+  "auto_close_after_days",
+  "section_break_fyaf",
+  "delay_penalty",
+  "max_allowed_delay_in_days",
+  "max_allowed_revision",
+  "max_allowed_rework",
+  "penalty_points_per_day",
+  "penalty_per_minute",
+  "notification_tab",
+  "email_alert",
+  "system_notification",
+  "report_tab",
+  "column_break_beks",
+  "reporting_frequency",
+  "no_of_cycles_in_report",
+  "last_executed_on",
+  "starting_date",
+  "starting_reporting_from"
+ ],
+ "fields": [
+  {
+   "default": "20",
+   "fieldname": "max_delay_penalty",
+   "fieldtype": "Float",
+   "hidden": 1,
+   "label": "Max Delay Penalty",
+   "non_negative": 1
+  },
+  {
+   "default": "10",
+   "fieldname": "penalty_points_per_day",
+   "fieldtype": "Float",
+   "label": "Penalty points per day",
+   "non_negative": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "penalty_per_minute",
+   "fieldtype": "Float",
+   "hidden": 1,
+   "label": "Penalty Per Minute",
+   "non_negative": 1,
+   "precision": "9",
+   "read_only": 1
+  },
+  {
+   "description": "Hours before a Reminder should be sent before the deadline.",
+   "fieldname": "sent_reminder_before",
+   "fieldtype": "Time",
+   "hidden": 1,
+   "label": "Sent Reminder Before"
+  },
+  {
+   "fieldname": "notification_tab",
+   "fieldtype": "Tab Break",
+   "label": "Notification"
+  },
+  {
+   "default": "0",
+   "fieldname": "email_alert",
+   "fieldtype": "Check",
+   "label": "Email Alert"
+  },
+  {
+   "default": "0",
+   "fieldname": "system_notification",
+   "fieldtype": "Check",
+   "label": "System Notification"
+  },
+  {
+   "fieldname": "column_break_vuwy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_fyaf",
+   "fieldtype": "Section Break",
+   "label": "Delay Scoring"
+  },
+  {
+   "default": "10",
+   "fieldname": "max_allowed_revision",
+   "fieldtype": "Int",
+   "label": "Max Allowed Revision",
+   "non_negative": 1
+  },
+  {
+   "default": "10",
+   "fieldname": "max_allowed_rework",
+   "fieldtype": "Int",
+   "label": "Max Allowed Rework",
+   "non_negative": 1
+  },
+  {
+   "default": "2",
+   "fieldname": "max_file_attachment_size",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Max File Attachment Size",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "report_tab",
+   "fieldtype": "Tab Break",
+   "label": "Report"
+  },
+  {
+   "default": "7",
+   "fieldname": "reporting_frequency",
+   "fieldtype": "Int",
+   "label": "Reporting Frequency",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "default": "3",
+   "fieldname": "no_of_cycles_in_report",
+   "fieldtype": "Int",
+   "label": "No of Cycles in Report",
+   "reqd": 1
+  },
+  {
+   "fieldname": "last_executed_on",
+   "fieldtype": "Date",
+   "hidden": 1,
+   "label": "Last executed on"
+  },
+  {
+   "fieldname": "starting_date",
+   "fieldtype": "Date",
+   "label": "Starting Reporting From"
+  },
+  {
+   "description": "All Fields in this can only be set once",
+   "fieldname": "column_break_beks",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "delay_penalty",
+   "fieldtype": "Int",
+   "label": "Delay Penalty",
+   "default": "100"
+  },
+  {
+   "fieldname": "max_allowed_delay_in_days",
+   "fieldtype": "Int",
+   "label": "Max Allowed Delay (In Days)",
+   "default": "7"
+  },
+  {
+   "default": "7",
+   "fieldname": "auto_close_after_days",
+   "fieldtype": "Int",
+   "label": "Auto Close After (Days)",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "default": "Monday",
+   "fieldname": "starting_reporting_from",
+   "fieldtype": "Select",
+   "label": "Starting Reporting From (Day)",
+   "options": "Monday\nTuesday\nWednesday\nThursday\nFriday\nSaturday\nSunday"
+  }
+ ],
+ "grid_page_length": 50,
+ "hide_toolbar": 1,
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-06-18 13:43:47.782047",
+ "modified_by": "Administrator",
+ "module": "Taskstream",
+ "name": "Work Item Configuration",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
