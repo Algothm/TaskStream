@@ -735,8 +735,6 @@
 		_riTimer = setTimeout(() => positionTabIndicator($(".wi-tab.active")), 100);
 	});
 
-
-
 	// ── Mobile row-detail popup: same renderExpanded content as desktop's
 	// inline accordion, shown in a bottom sheet instead — desktop untouched. ──
 	function isMobileViewport() {

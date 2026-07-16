@@ -54,9 +54,7 @@ frappe.ui.form.on("Work Item", {
 		}
 		// Mark Complete button
 		if (
-			(frm.doc.status === "Open" &&
-				!frm.doc.review_required &&
-				user === frm.doc.assignee) ||
+			(frm.doc.status === "Open" && !frm.doc.review_required && user === frm.doc.assignee) ||
 			(frm.doc.status === "Under Review" && user === frm.doc.reviewer)
 		) {
 			frm.add_custom_button(__("Mark Complete"), function () {
@@ -684,7 +682,6 @@ function set_target_end_date_time(frm) {
 		},
 	});
 }
-
 
 function setup_work_flow_template(frm) {
 	if (frm.doc.work_flow_template) {
