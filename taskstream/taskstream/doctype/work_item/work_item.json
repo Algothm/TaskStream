@@ -1,0 +1,416 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "WI-.####",
+ "creation": "2025-06-26 17:45:14.163828",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "details_tab",
+  "settings_section",
+  "work_flow",
+  "review_required",
+  "priority",
+  "section_break_iwoa",
+  "target_end_date",
+  "actual_end_date",
+  "auto_expire_on_target_end_date",
+  "people_section",
+  "requester",
+  "reporter",
+  "assignee",
+  "reviewer",
+  "column_break_ytcr",
+  "benefit_of_work_done",
+  "basic_details_section",
+  "summary",
+  "section_break_deee",
+  "description",
+  "attachments",
+  "section_break_pyzl",
+  "internal_section_section",
+  "twenty_percent_reminder_time",
+  "twenty_percent_reminder_sent",
+  "deadline_reminder_sent",
+  "idx",
+  "status",
+  "first_mail",
+  "seen_by_assignee",
+  "seen_by_assignee_on",
+  "work_flow_tab",
+  "section_break_gnhu",
+  "work_flow_template",
+  "version",
+  "column_break_nvbq",
+  "start_date_time",
+  "section_break_aljj",
+  "html_aseg",
+  "section_break_xgpa",
+  "work_flow_tasks",
+  "assigned_on",
+  "score_tab",
+  "section_break_yzzw",
+  "column_break_fyin",
+  "score",
+  "count_details_section",
+  "revision_count",
+  "rework_count",
+  "score_summary_section",
+  "score_summary",
+  "score_breakdown"
+ ],
+ "fields": [
+  {
+   "fieldname": "summary",
+   "fieldtype": "Small Text",
+   "label": "Summary",
+   "max_height": "120px"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description",
+   "max_height": "300px"
+  },
+  {
+   "default": "Open",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Open\nOn Hold\nUnder Review\nDone\nUnsuccessful\nClosed\nCancelled",
+   "read_only": 1,
+   "show_on_timeline": 1
+  },
+  {
+   "fieldname": "basic_details_section",
+   "fieldtype": "Section Break",
+   "label": "Overview"
+  },
+  {
+   "fieldname": "column_break_fyin",
+   "fieldtype": "Column Break",
+   "label": "Scoring Details"
+  },
+  {
+   "fieldname": "internal_section_section",
+   "fieldtype": "Section Break",
+   "hidden": 1,
+   "label": "Internal Section"
+  },
+  {
+   "fieldname": "twenty_percent_reminder_time",
+   "fieldtype": "Datetime",
+   "hidden": 1,
+   "label": "Twenty Percent Reminder Time"
+  },
+  {
+   "default": "0",
+   "fieldname": "twenty_percent_reminder_sent",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Twenty Percent Reminder Sent"
+  },
+  {
+   "default": "0",
+   "fieldname": "deadline_reminder_sent",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Deadline Reminder Sent"
+  },
+  {
+   "depends_on": "eval: doc.rework_count > 0",
+   "fieldname": "rework_count",
+   "fieldtype": "Int",
+   "label": "Rework Count",
+   "non_negative": 1,
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "first_mail",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "First mail"
+  },
+  {
+   "fieldname": "seen_by_assignee",
+   "fieldtype": "Check",
+   "label": "Seen by Assignee",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval: doc.seen_by_assignee",
+   "fieldname": "seen_by_assignee_on",
+   "fieldtype": "Datetime",
+   "label": "Seen On",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval: doc.work_flow == 1",
+   "fieldname": "work_flow_template",
+   "fieldtype": "Link",
+   "label": "Work Flow Template",
+   "link_filters": "[[\"Work Flow Template\",\"active\",\"=\",1],[\"Work Flow Template\",\"docstatus\",\"=\",\"1\"]]",
+   "options": "Work Flow Template"
+  },
+  {
+   "default": "1",
+   "fieldname": "idx",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "idx"
+  },
+  {
+   "depends_on": "eval: doc.work_flow_template",
+   "fieldname": "start_date_time",
+   "fieldtype": "Datetime",
+   "label": "Start Date Time",
+   "mandatory_depends_on": "eval: doc.work_flow_template"
+  },
+  {
+   "depends_on": "eval: doc.revision_count > 0",
+   "fieldname": "revision_count",
+   "fieldtype": "Int",
+   "label": "Revision Count",
+   "read_only": 1
+  },
+  {
+   "fieldname": "settings_section",
+   "fieldtype": "Section Break",
+   "label": "Settings"
+  },
+  {
+   "default": "0",
+   "fieldname": "work_flow",
+   "fieldtype": "Check",
+   "label": "Work Flow"
+  },
+  {
+   "default": "0",
+   "fieldname": "review_required",
+   "fieldtype": "Check",
+   "label": "Review Required"
+  },
+  {
+   "fieldname": "people_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "assignee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Assign To",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "requester",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Requester",
+   "options": "User"
+  },
+  {
+   "fieldname": "reporter",
+   "fieldtype": "Link",
+   "label": "Reporter",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "depends_on": "review_required",
+   "fieldname": "reviewer",
+   "fieldtype": "Link",
+   "label": "Reviewer",
+   "mandatory_depends_on": "review_required",
+   "options": "User"
+  },
+  {
+   "fieldname": "section_break_yzzw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "score_tab",
+   "fieldtype": "Tab Break",
+   "hidden": 1,
+   "label": "Score"
+  },
+  {
+   "depends_on": "eval: doc.score != 0",
+   "fieldname": "score",
+   "fieldtype": "Float",
+   "hidden": 1,
+   "label": "Score",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_gnhu",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_nvbq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_pyzl",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "100",
+   "fieldname": "benefit_of_work_done",
+   "fieldtype": "Percent",
+   "label": "Benefit of Work Done (%)"
+  },
+  {
+   "fieldname": "target_end_date",
+   "fieldtype": "Datetime",
+   "label": "Target End Date",
+   "search_index": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "actual_end_date",
+   "fieldtype": "Datetime",
+   "label": "Actual End Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "assigned_on",
+   "fieldtype": "Date",
+   "hidden": 1,
+   "label": "Assigned On",
+   "options": "Today",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_deee",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval: doc.score != 0",
+   "fieldname": "score_summary",
+   "fieldtype": "Long Text",
+   "hidden": 1,
+   "label": "Score Summary",
+   "read_only": 1
+  },
+  {
+   "fieldname": "score_breakdown",
+   "fieldtype": "Code",
+   "hidden": 1,
+   "label": "Score Breakdown",
+   "options": "JSON",
+   "read_only": 1
+  },
+  {
+   "fieldname": "attachments",
+   "fieldtype": "Table",
+   "label": "Attachments",
+   "options": "Work Item Attachment"
+  },
+  {
+   "fieldname": "section_break_iwoa",
+   "fieldtype": "Section Break"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "score_summary_section",
+   "fieldtype": "Section Break",
+   "hidden": 1,
+   "label": "Score Summary"
+  },
+  {
+   "fieldname": "count_details_section",
+   "fieldtype": "Section Break",
+   "label": "Count Details"
+  },
+  {
+   "fieldname": "details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Overview"
+  },
+  {
+   "depends_on": "eval: doc.work_flow === 1",
+   "fieldname": "work_flow_tab",
+   "fieldtype": "Tab Break",
+   "label": "Work Flow"
+  },
+  {
+   "fieldname": "section_break_aljj",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "html_aseg",
+   "fieldtype": "HTML"
+  },
+  {
+   "default": "Medium",
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "label": "Priority",
+   "options": "Low\nMedium\nHigh"
+  },
+  {
+   "default": "0",
+   "fieldname": "auto_expire_on_target_end_date",
+   "fieldtype": "Check",
+   "label": "Auto Expire on Target End Date"
+  },
+  {
+   "fieldname": "section_break_xgpa",
+   "fieldtype": "Section Break",
+   "hidden": 1
+  },
+  {
+   "fieldname": "work_flow_tasks",
+   "fieldtype": "Table",
+   "label": "Work Flow Tasks",
+   "options": "Work Flow Task"
+  },
+  {
+   "fieldname": "column_break_ytcr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "work_flow_template.version",
+   "fieldname": "version",
+   "fieldtype": "Data",
+   "label": "Version",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "make_attachments_public": 1,
+ "modified": "2026-07-06 17:41:43.119840",
+ "modified_by": "Administrator",
+ "module": "Taskstream",
+ "name": "Work Item",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

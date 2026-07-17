@@ -1,0 +1,142 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "WTE.#####",
+ "creation": "2026-02-23 17:53:37.843977",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "work_item_reference",
+  "current_target_date",
+  "requested_due_date",
+  "column_break_vbzm",
+  "do_not_impact_score",
+  "reason",
+  "section_break_jrno",
+  "requester",
+  "approver",
+  "reviewed_by",
+  "column_break_avqy",
+  "reviewed_on",
+  "status",
+  "requested_date"
+ ],
+ "fields": [
+  {
+   "fieldname": "work_item_reference",
+   "fieldtype": "Link",
+   "label": "Work Item Reference",
+   "options": "Work Item",
+   "read_only": 1
+  },
+  {
+   "fieldname": "current_target_date",
+   "fieldtype": "Datetime",
+   "label": "Current Target Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "requested_due_date",
+   "fieldtype": "Datetime",
+   "label": "Requested Due Date",
+   "read_only_depends_on": "eval: doc.status != \"Pending\""
+  },
+  {
+   "fieldname": "reason",
+   "fieldtype": "Small Text",
+   "label": "Reason",
+   "read_only_depends_on": "eval: doc.status != \"Pending\""
+  },
+  {
+   "fieldname": "requester",
+   "fieldtype": "Link",
+   "label": "Requester",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "approver",
+   "fieldtype": "Table MultiSelect",
+   "label": "Approver",
+   "options": "Approval User",
+   "read_only": 1
+  },
+  {
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Status",
+   "options": "Pending\nApproved\nRejected",
+   "read_only": 1
+  },
+  {
+   "fieldname": "requested_date",
+   "fieldtype": "Datetime",
+   "label": "Requested Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reviewed_by",
+   "fieldtype": "Link",
+   "label": "Reviewed By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reviewed_on",
+   "fieldtype": "Datetime",
+   "label": "Reviewed On",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_jrno",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_avqy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_vbzm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "do_not_impact_score",
+   "fieldtype": "Check",
+   "label": "Do not impact Score ",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "in_create": 1,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-06-16 17:40:21.934403",
+ "modified_by": "Administrator",
+ "module": "Taskstream",
+ "name": "Work Item Time Extension",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

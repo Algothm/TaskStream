@@ -1,0 +1,240 @@
+<!--[if mso]>
+<style type="text/css">
+table, td { font-family: Segoe UI, Arial, sans-serif; }
+</style>
+<![endif]-->
+
+<!-- Outer wrapper table for centering -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #f8fafc;">
+	<tr>
+		<td align="center" style="padding: 20px 0;">
+			<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="640" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; max-width: 640px; background-color: #ffffff; border: 1px solid #e2e8f0;">
+
+				<!-- Header -->
+				<tr>
+					<td style="padding: 24px 32px; background-color: #4f46e5;">
+						<!--[if mso]>
+						<v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:640px;">
+						<v:fill type="gradient" color="#4f46e5" color2="#7c3aed" angle="135"/>
+						<v:textbox style="mso-fit-shape-to-text:true" inset="24px,24px,24px,24px">
+						<![endif]-->
+						<h2 style="margin: 0; color: #ffffff; font-size: 20px; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+							{{ heading }}
+						</h2>
+						<p style="margin: 6px 0 0; color: #e0e7ff; font-size: 13px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+							<!-- Work Item: <strong>{{ doc.name }}</strong> -->
+							{% if doc.status %}
+								<!-- &nbsp;&middot;&nbsp; -->
+								<!--[if mso]>
+								<span style="background-color: #7c3aed; color: #fff; padding: 2px 10px; font-size: 11px; font-weight: 600;">{{ doc.status }}</span>
+								<![endif]-->
+								<!--[if !mso]><!-->
+								<span style="display: inline-block; background-color: #7c3aed; color: #fff; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; vertical-align: middle;">
+									{{ doc.status }}
+								</span>
+								<!--<![endif]-->
+							{% endif %}
+						</p>
+						<!--[if mso]>
+						</v:textbox>
+						</v:rect>
+						<![endif]-->
+					</td>
+				</tr>
+
+				<!-- Body -->
+				<tr>
+					<td style="padding: 28px 32px;">
+
+						<!-- Notification Description -->
+						{% if notification_description %}
+						<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom: 20px;">
+							<tr>
+								<td style="width: 4px; background-color: #4f46e5;" width="4"></td>
+								<td style="padding: 14px 18px; background-color: #f0f4ff;">
+									<p style="margin: 0; font-size: 14px; color: #1e293b; line-height: 1.6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">{{ notification_description }}</p>
+								</td>
+							</tr>
+						</table>
+						{% endif %}
+
+						<!-- One Time Work Item Details -->
+						{% if notification_type == "one_time" %}
+						<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom: 20px; border: 1px solid #e2e8f0;">
+							<tr>
+								<td colspan="2" style="background-color: #f8fafc; padding: 10px 16px; border-bottom: 1px solid #e2e8f0;">
+									<h3 style="margin: 0; font-size: 13px; color: #64748b; text-transform: uppercase; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">Work Item Details</h3>
+								</td>
+							</tr>
+							<tr>
+								<td style="padding: 10px 16px; font-size: 13px; color: #64748b; width: 150px; border-bottom: 1px solid #f1f5f9;" width="150">Work Item ID</td>
+								<td style="padding: 10px 16px; font-size: 14px; color: #1e293b; font-weight: 600; border-bottom: 1px solid #f1f5f9;">
+									<a href="{{ url }}" style="color: #4f46e5; text-decoration: none;">{{ doc.name }}</a>
+								</td>
+							</tr>
+							{% if doc.target_end_date %}
+							<tr>
+								<td style="padding: 10px 16px; font-size: 13px; color: #64748b; width: 150px;" width="150">Target Date</td>
+								<td style="padding: 10px 16px; font-size: 14px; color: #1e293b; font-weight: 500;">{{ frappe.utils.format_datetime(doc.target_end_date, "dd-MM-yyyy") }}</td>
+							</tr>
+							{% endif %}
+						</table>
+						{% endif %}
+
+						<!-- Summary -->
+						{% if doc.summary %}
+						<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom: 20px;">
+							<tr>
+								<td>
+									<h3 style="margin: 0 0 6px; font-size: 13px; color: #94a3b8; text-transform: uppercase; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">Summary</h3>
+									<p style="margin: 0; font-size: 15px; color: #1e293b; line-height: 1.5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">{{ doc.summary }}</p>
+								</td>
+							</tr>
+						</table>
+						{% endif %}
+
+						<!-- Priority Badge -->
+						{% if doc.priority %}
+						<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
+							<tr>
+								<td style="background-color: #7c3aed; color: #ffffff; padding: 4px 14px; font-size: 12px; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+									<!--[if !mso]><!-->
+									<span style="display: inline-block; border-radius: 12px;">
+									<!--<![endif]-->
+									{{ doc.priority }} Priority
+									<!--[if !mso]><!-->
+									</span>
+									<!--<![endif]-->
+								</td>
+							</tr>
+						</table>
+						{% endif %}
+
+						<!-- People Section -->
+						<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom: 20px; border: 1px solid #e2e8f0;">
+							<tr>
+								<td colspan="2" style="background-color: #f8fafc; padding: 10px 16px; border-bottom: 1px solid #e2e8f0;">
+									<h3 style="margin: 0; font-size: 13px; color: #64748b; text-transform: uppercase; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">People</h3>
+								</td>
+							</tr>
+							{% if doc.requester %}
+							<tr>
+								<td style="padding: 10px 16px; font-size: 13px; color: #64748b; width: 120px; border-bottom: 1px solid #f1f5f9;" width="120">Requester</td>
+								<td style="padding: 10px 16px; font-size: 14px; color: #1e293b; font-weight: 500; border-bottom: 1px solid #f1f5f9;">
+									{{ requester_name }}
+									<span style="color: #94a3b8; font-weight: 400; font-size: 12px;">({{ doc.requester }})</span>
+								</td>
+							</tr>
+							{% endif %}
+							{% if doc.reporter %}
+							<tr>
+								<td style="padding: 10px 16px; font-size: 13px; color: #64748b; width: 120px; border-bottom: 1px solid #f1f5f9;" width="120">Reporter</td>
+								<td style="padding: 10px 16px; font-size: 14px; color: #1e293b; font-weight: 500; border-bottom: 1px solid #f1f5f9;">
+									{{ reporter_name }}
+									<span style="color: #94a3b8; font-weight: 400; font-size: 12px;">({{ doc.reporter }})</span>
+								</td>
+							</tr>
+							{% endif %}
+							{% if doc.assignee %}
+							<tr>
+								<td style="padding: 10px 16px; font-size: 13px; color: #64748b; width: 120px; border-bottom: 1px solid #f1f5f9;" width="120">Assignee</td>
+								<td style="padding: 10px 16px; font-size: 14px; color: #1e293b; font-weight: 500; border-bottom: 1px solid #f1f5f9;">
+									{{ assignee_name }}
+									<span style="color: #94a3b8; font-weight: 400; font-size: 12px;">({{ doc.assignee }})</span>
+								</td>
+							</tr>
+							{% endif %}
+							{% if doc.reviewer %}
+							<tr>
+								<td style="padding: 10px 16px; font-size: 13px; color: #64748b; width: 120px;" width="120">Reviewer</td>
+								<td style="padding: 10px 16px; font-size: 14px; color: #1e293b; font-weight: 500;">
+									{{ reviewer_name }}
+									<span style="color: #94a3b8; font-weight: 400; font-size: 12px;">({{ doc.reviewer }})</span>
+								</td>
+							</tr>
+							{% endif %}
+						</table>
+
+						<!-- Dates Section -->
+						{% if notification_type != "one_time" %}
+						<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom: 20px; border: 1px solid #e2e8f0;">
+							<tr>
+								<td colspan="2" style="background-color: #f8fafc; padding: 10px 16px; border-bottom: 1px solid #e2e8f0;">
+									<h3 style="margin: 0; font-size: 13px; color: #64748b; text-transform: uppercase; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">Dates</h3>
+								</td>
+							</tr>
+							{% if doc.target_end_date %}
+							<tr>
+								<td style="padding: 10px 16px; font-size: 13px; color: #64748b; width: 150px; border-bottom: 1px solid #f1f5f9;" width="150">Target End Date</td>
+								<td style="padding: 10px 16px; font-size: 14px; color: #1e293b; font-weight: 500; border-bottom: 1px solid #f1f5f9;">{{ frappe.utils.format_datetime(doc.target_end_date, "dd MMM yyyy, hh:mm a") }}</td>
+							</tr>
+							{% endif %}
+							{% if doc.actual_end_date %}
+							<tr>
+								<td style="padding: 10px 16px; font-size: 13px; color: #64748b; width: 150px; border-bottom: 1px solid #f1f5f9;" width="150">Actual End Date</td>
+								<td style="padding: 10px 16px; font-size: 14px; color: #1e293b; font-weight: 500; border-bottom: 1px solid #f1f5f9;">{{ frappe.utils.format_datetime(doc.actual_end_date, "dd MMM yyyy, hh:mm a") }}</td>
+							</tr>
+							{% endif %}
+							{% if doc.assigned_on %}
+							<tr>
+								<td style="padding: 10px 16px; font-size: 13px; color: #64748b; width: 150px;" width="150">Assigned On</td>
+								<td style="padding: 10px 16px; font-size: 14px; color: #1e293b; font-weight: 500;">{{ frappe.utils.format_date(doc.assigned_on, "dd MMM yyyy") }}</td>
+							</tr>
+							{% endif %}
+						</table>
+						{% endif %}
+
+						<!-- Workflow Section -->
+						{% if doc.work_flow and doc.work_flow_template %}
+						<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom: 20px; border: 1px solid #e2e8f0;">
+							<tr>
+								<td colspan="2" style="background-color: #f8fafc; padding: 10px 16px; border-bottom: 1px solid #e2e8f0;">
+									<h3 style="margin: 0; font-size: 13px; color: #64748b; text-transform: uppercase; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">Work Flow</h3>
+								</td>
+							</tr>
+							<tr>
+								<td style="padding: 10px 16px; font-size: 13px; color: #64748b; width: 150px;" width="150">Template</td>
+								<td style="padding: 10px 16px; font-size: 14px; color: #1e293b; font-weight: 500;">{{ doc.work_flow_template }}</td>
+							</tr>
+							<tr>
+								<td style="padding: 10px 16px; font-size: 13px; color: #64748b; width: 150px;" width="150">Template Name</td>
+								<td style="padding: 10px 16px; font-size: 14px; color: #1e293b; font-weight: 500;">{{ frappe.db.get_value("Work Flow Template", doc.work_flow_template, "template_name") }}</td>
+							</tr>
+						</table>
+						{% endif %}
+
+						<!-- CTA Button -->
+						<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin: 28px 0 8px;">
+							<tr>
+								<td align="center">
+									<!--[if mso]>
+									<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{ url }}" style="height:42px;v-text-anchor:middle;width:200px;" fillcolor="#4f46e5" strokecolor="#4f46e5" strokeweight="0">
+									<w:anchorlock/>
+									<center style="color:#ffffff;font-family:Segoe UI,Arial,sans-serif;font-size:14px;font-weight:600;">View &rarr;</center>
+									</v:roundrect>
+									<![endif]-->
+									<!--[if !mso]><!-->
+									<a href="{{ url }}" style="display: inline-block; background-color: #4f46e5; color: #ffffff; text-decoration: none; padding: 12px 32px; border-radius: 6px; font-size: 14px; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+										View &rarr;
+									</a>
+									<!--<![endif]-->
+								</td>
+							</tr>
+						</table>
+
+					</td>
+				</tr>
+
+				<!-- Footer -->
+				<tr>
+					<td style="background-color: #f8fafc; padding: 16px 32px; border-top: 1px solid #e2e8f0;">
+						<p style="margin: 0; font-size: 12px; color: #94a3b8; text-align: center; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+							This is an automated notification from TaskStream. Please do not reply to this email.
+						</p>
+					</td>
+				</tr>
+
+			</table>
+		</td>
+	</tr>
+</table>

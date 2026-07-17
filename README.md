@@ -1,2 +1,33 @@
-# TaskStream
-Taskstream is a task and project management application built as a Frappe Framework app. It provides a comprehensive work-item-based system for tracking, managing, and scoring tasks with features like workflow templates, and performance scoring.
+### Taskstream
+
+Useful in managing tasks and projects
+
+### Installation
+
+You can install this app using the [bench](https://github.com/frappe/bench) CLI:
+
+```bash
+cd $PATH_TO_YOUR_BENCH
+bench get-app $URL_OF_THIS_REPO --branch develop
+bench install-app taskstream
+```
+
+### Contributing
+
+This app uses `pre-commit` for code formatting and linting. Please [install pre-commit](https://pre-commit.com/#installation) and enable it for this repository:
+
+```bash
+cd apps/taskstream
+pre-commit install
+```
+
+Pre-commit is configured to use the following tools for checking and formatting your code:
+
+- ruff
+- eslint
+- prettier
+- pyupgrade
+
+### License
+
+mit
