@@ -1,11 +1,14 @@
 import frappe
 from frappe.permissions import add_permission, update_permission_property
 
+from taskstream.taskstream.custom_html_block.work_item_dashboard.setup import create_or_update_block
+
 
 def execute():
 	create_permissions()
 	create_role()
 	update_user_list_link()
+	create_or_update_block()
 
 
 def create_permissions():
