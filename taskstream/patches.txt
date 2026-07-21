@@ -9,6 +9,6 @@ taskstream.patches.wi_target_end_date
 taskstream.patches.wi_status_to_open
 taskstream.patches.get_action_in_wiss
 taskstream.patches.update_wiss_action_values
-taskstream.patches.create_or_update_wi_dashboard #4
+taskstream.patches.create_or_update_wi_dashboard #5
 taskstream.patches.wfti_value_time_duration
 taskstream.patches.recalculate_done_work_item_scores
