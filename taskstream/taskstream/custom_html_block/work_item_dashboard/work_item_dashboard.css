@@ -150,6 +150,24 @@
   gap: 10px;
 }
 
+.wi-new-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-2);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.wi-new-btn:hover { background: var(--surface-hover); color: var(--text-1); }
+
 /* ─────────────────────────── Tab Toggle ─────────────────────────── */
 .wi-tabs {
   display: flex;
@@ -572,6 +590,10 @@
 
   .wi-header-top { position: relative; row-gap: 8px; }
   .wi-title { margin-bottom: 0; }
+  .wi-new-btn {
+    position: absolute; top: 0; right: 0;
+  }
+  .wi-new-btn-label { display: none; } /* icon-only "New" — label was redundant next to the icon */
   .wi-header-actions { width: 100%; }
   .wi-tabs { width: 100%; }
   .wi-tabs .wi-tab { flex: 1; justify-content: center; padding: 8px 6px; }

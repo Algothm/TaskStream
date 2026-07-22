@@ -698,6 +698,10 @@
 			});
 		});
 
+		// New work item
+		const newBtn = $("#wi-new-btn");
+		if (newBtn) newBtn.addEventListener("click", () => frappe.new_doc("Work Item"));
+
 		// Assigned-to-me / Assigned-by-me toggle
 		$$(".wi-tab").forEach((tab) => {
 			tab.addEventListener("click", () => {
