@@ -31,3 +31,7 @@ Pre-commit is configured to use the following tools for checking and formatting 
 ### License
 
 mit
+
+### Video Covering Features
+
+[Short video](https://github.com/Algothm/TaskStream/blob/main/Task%20Stream%20-%20High%20Level%20Features.mp4) with few features.
